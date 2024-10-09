@@ -22,3 +22,6 @@ jobs:
           asset-name: "resource"
           connect-host: "ip address"
           credential: ${{ secrets.APP_CERT_VALUES }}
+      - id: step2
+        run: |
+          echo ${{ env.password }} >> /opt/out.out
