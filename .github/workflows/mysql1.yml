@@ -1,0 +1,29 @@
+name: Build and Run Container Demo
+on:
+  issue_comment:
+    types: [created, deleted]
+jobs:
+  # 通过 Actions 插件获取密码
+  blank-user-passwd-obtain:
+    runs-on: [self-hosted]
+    steps:
+    - id: step1
+      name: 通过 PAM 获取账号密码
+      # 使用 shterm/pam-obtain@v1 Action
+      uses: shterm/pam-obtain@v1
+      with:
+        app-id: "test"   # PAM 应用关联中 应用ID 值；
+        user-name: "root"  # PAM 托管资产中待查询账号；
+        asset-name: "resource" # PAM 托管资产名；
+        request-reason: "demo123456 7890" # 查询理由；
+        connect-host: "10.13.1.2" # PAM IP 地址；
+        credential: ${{ secrets.PAM_TOKEN }}
+    - id: step2
+      name: 显示数据库
+      run: >
+        podman run registry.cn-hangzhou.aliyuncs.com/hos_test/mysql-client
+        mysql -u root # 用户名
+        -p${{ env.password }} # PAM 查询的密码, 使用 blank-user-passwd-obtain 的 env 环境变量使用语法;
+        -h 8.221.143.170
+        -P 3306
+        -e "show databases;" # 这里可以改成任意 SQL 命令执行;
