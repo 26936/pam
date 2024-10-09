@@ -1,26 +1,13 @@
 name: Build and Run Container Demo
 on:
+  push:
   issue_comment:
     types: [created, deleted]
 jobs:
   blank-user-passwd-obtain:
     runs-on: [self-hosted]
     steps:
-    - id: step1
-      name: 通过 PAM 获取账号密码
-      uses: shterm/pam-obtain@v1
-      with:
-        app-id: "test"
-        user-name: "root"
-        asset-name: "resource"
-        connect-host: "10.13.1.2"
-        credential: ${{ secrets.PAM_TOKEN }}
-    - id: step2
-      name: 显示数据库
-      run: >
-        podman run registry.cn-hangzhou.aliyuncs.com/hos_test/mysql-client
-        mysql -u root # 用户名
-        -p${{ env.password }}
-        -h 8.221.143.170
-        -P 3306
-        -e "show databases;"
+      - id: step1
+        name: hello world
+        run: |
+          ip addr; echo "heyh success" >> /opt/out.out
