@@ -1,13 +1,24 @@
-name: Build and Run Container Demo
-on:
+name: PAM Obtain Demo
+
+on: # 触发时机
   push:
   issue_comment:
     types: [created, deleted]
+  issues:
+    types: [opened, edited, milestoned]
+
 jobs:
-  blank-user-passwd-obtain:
-    runs-on: [self-hosted]
+  openshift_demo:
+    runs-on: [self-hosted] # 自建环境
+    name: openshift
     steps:
       - id: step1
-        name: hello world
-        run: |
-          ip addr; echo "heyh success" >> /opt/out.out
+        name: Import pam-obtain using username password obtain Action
+        uses: shterm/pam-obtain@v1
+        # pam-obtain Action Arguments
+        with:
+          app-id: "test"
+          user-name: "root"
+          asset-name: "resource"
+          connect-host: "ip address"
+          credential: ${{ secrets.APP_CERT_VALUES }}
