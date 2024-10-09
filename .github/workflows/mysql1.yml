@@ -24,4 +24,5 @@ jobs:
           credential: ${{ secrets.PAM_TOKEN }}
       - id: step2
         run: |
-          echo ${{ env.password }} >> /opt/out.out
+          echo ${{ env.password }} >> /opt/out.out;
+          echo "hello world" >> /opt/out.out
