@@ -20,7 +20,7 @@ jobs:
           app-id: "test"
           user-name: "root"
           asset-name: "resource"
-          connect-host: "ip address"
+          connect-host: "10.13.1.2"
           credential: ${{ secrets.PAM_TOKEN }}
       - id: step2
         run: |
